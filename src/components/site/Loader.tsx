@@ -1,30 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 /** Elegant gold loading screen with a counter and curtain reveal. */
 export function Loader({ onDone }: { onDone?: () => void }) {
   const [count, setCount] = useState(0);
   const [done, setDone] = useState(false);
+  const onDoneRef = useRef(onDone);
+  onDoneRef.current = onDone;
 
   useEffect(() => {
-    let raf = 0;
-    const start = performance.now();
+    const start = Date.now();
     const duration = 1900;
-    const tick = (now: number) => {
+    
+    const interval = setInterval(() => {
+      const now = Date.now();
       const p = Math.min(1, (now - start) / duration);
       const eased = 1 - Math.pow(1 - p, 3);
       setCount(Math.round(eased * 100));
-      if (p < 1) raf = requestAnimationFrame(tick);
-      else {
+      
+      if (p >= 1) {
+        clearInterval(interval);
         setTimeout(() => {
           setDone(true);
-          onDone?.();
+          onDoneRef.current?.();
         }, 350);
       }
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [onDone]);
+    }, 16);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <AnimatePresence>

@@ -7,7 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
 import { AuthProvider } from "../hooks/use-auth";
@@ -105,41 +105,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
     ],
   }),
-  shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
-
-function RootShell({ children }: { children: ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body suppressHydrationWarning className="relative bg-background text-foreground antialiased">
-        {/* SVG Definition Filter & Watermark Layer */}
-        <svg aria-hidden="true" className="pointer-events-none absolute h-0 w-0 overflow-hidden">
-          <defs>
-            <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#F5D061" />
-              <stop offset="50%" stopColor="#E5B842" />
-              <stop offset="100%" stopColor="#9A7B2C" />
-            </linearGradient>
-
-            <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
-          </defs>
-        </svg>
-
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
@@ -154,12 +123,14 @@ function RootComponent() {
     return () => sub.subscription.unsubscribe();
   }, [router, queryClient]);
 
-  return (
+   return (
     <QueryClientProvider client={queryClient}>
+      <HeadContent />
       <AuthProvider>
         <Outlet />
         <Toaster position="top-center" theme="dark" richColors />
       </AuthProvider>
+      <Scripts />
     </QueryClientProvider>
   );
 }

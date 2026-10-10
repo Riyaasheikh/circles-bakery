@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useMotionValueEvent, useScroll } from "framer-motion";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { User } from "lucide-react";
 import { Magnetic } from "./Magnetic";
 import { useAuth } from "@/hooks/use-auth";
@@ -16,6 +16,7 @@ const LINKS = [
 export function Navbar() {
   const { scrollY } = useScroll();
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -29,7 +30,15 @@ export function Navbar() {
 
   const go = (href: string) => {
     setOpen(false);
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    if (typeof window !== "undefined" && window.location.pathname !== "/") {
+      navigate({ to: "/" }).then(() => {
+        setTimeout(() => {
+          document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+        }, 150);
+      });
+    } else {
+      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (

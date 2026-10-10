@@ -9,12 +9,12 @@ export function Gallery() {
   const close = useCallback(() => setOpen(null), []);
 
   return (
-    <section id="gallery" className="bg-charcoal px-6 py-28 md:px-10 md:py-40">
+    <section id="gallery" className="bg-background border-t border-border px-6 py-24 md:px-10 md:py-36">
       <div className="mx-auto max-w-7xl">
         <div className="mb-14 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div>
             <Reveal>
-              <p className="eyebrow mb-5">The Gallery</p>
+              <p className="eyebrow mb-4">The Gallery</p>
             </Reveal>
             <Reveal delay={0.1}>
               <h2 className="font-display text-4xl text-ivory md:text-6xl">
@@ -23,7 +23,7 @@ export function Gallery() {
             </Reveal>
           </div>
           <Reveal delay={0.2}>
-            <p className="max-w-xs font-body text-sm font-light text-beige/65">
+            <p className="max-w-xs font-body text-sm font-light text-beige/80">
               A glimpse into our kitchen, our counter and the tables where it all
               comes together.
             </p>
@@ -40,7 +40,7 @@ export function Gallery() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.9, delay: (i % 4) * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className={`group relative overflow-hidden rounded-sm border border-white/10 ${img.span ?? ""} ${
+              className={`group relative overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition-all duration-300 hover:shadow-lg ${img.span ?? ""} ${
                 img.desktopOnly ? "hidden md:block" : ""
               }`}
             >
@@ -48,10 +48,10 @@ export function Gallery() {
                 src={img.src}
                 alt={img.alt}
                 loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-110"
+                className="h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-scrim/0 transition-colors duration-500 group-hover:bg-scrim/35" />
-              <span className="absolute bottom-4 left-4 translate-y-3 font-body text-[10px] uppercase tracking-[0.2em] text-gold opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+              <div className="absolute inset-0 bg-scrim/0 transition-colors duration-500 group-hover:bg-scrim/30" />
+              <span className="absolute bottom-4 left-4 translate-y-3 rounded-full bg-white/90 px-3.5 py-1 font-body text-[10px] font-medium uppercase tracking-[0.2em] text-brown opacity-0 shadow-md backdrop-blur-sm transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
                 View
               </span>
             </motion.button>

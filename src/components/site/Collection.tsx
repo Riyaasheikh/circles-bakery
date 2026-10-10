@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin"; // 1. Import ScrollToPlugin
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { Reveal } from "./Reveal";
 import { CategoryCard } from "./CategoryCard";
 import { ITEMS } from "@/data/ITEMS";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-
 
 export function Collection() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -82,10 +82,10 @@ export function Collection() {
     <section
       id="collection"
       ref={sectionRef}
-      className="relative w-full max-w-full bg-charcoal overflow-hidden"
+      className="relative w-full max-w-full bg-background border-t border-border overflow-hidden"
     >
       {/* ================= MOBILE LAYOUT (Clean Static List) ================= */}
-      <div className="block lg:hidden px-5 py-12 sm:px-6">
+      <div className="block lg:hidden px-5 py-16 sm:px-6">
         <div className="mb-8">
           <p className="eyebrow mb-2">The Signature Collection</p>
           <h2 className="font-display text-3xl leading-tight text-foreground">
@@ -96,27 +96,36 @@ export function Collection() {
           </p>
         </div>
 
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-5">
           {ITEMS.map((it) => (
-            <div key={it.n} className="overflow-hidden rounded-xl border border-foreground/10 bg-charcoal-light">
+            <Link
+              key={it.n}
+              to="/menu"
+              search={{ c: it.c }}
+              className="group overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition-all duration-300 hover:shadow-md hover:border-gold/40"
+            >
               <div className="aspect-[16/10] w-full overflow-hidden">
-                <img src={it.img} alt={it.t} className="h-full w-full object-cover" />
+                <img
+                  src={it.img}
+                  alt={it.t}
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
               </div>
-              <div className="p-4">
+              <div className="p-5">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs text-gold">{it.n}</span>
+                  <span className="font-mono text-xs font-semibold text-gold">{it.n}</span>
                   <div className="flex gap-1.5">
                     {it.tags.slice(0, 2).map((tag) => (
-                      <span key={tag} className="rounded-full bg-foreground/5 px-2 py-0.5 text-[10px] text-beige/70">
+                      <span key={tag} className="rounded-full bg-stone-100 px-2.5 py-0.5 text-[10px] font-medium text-beige">
                         {tag}
                       </span>
                     ))}
                   </div>
                 </div>
-                <h3 className="mt-2 font-display text-xl text-foreground">{it.t}</h3>
-                <p className="mt-1 font-body text-xs text-beige/70">{it.d}</p>
+                <h3 className="mt-2 font-display text-2xl text-foreground group-hover:text-gold transition-colors">{it.t}</h3>
+                <p className="mt-1 font-body text-xs leading-relaxed text-beige/80">{it.d}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -147,7 +156,7 @@ export function Collection() {
               onClick={handlePrev}
               disabled={!canScrollLeft}
               aria-label="Previous items"
-              className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-foreground/20 bg-charcoal-light text-foreground transition-all duration-300 hover:border-gold hover:text-gold disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-foreground/20 disabled:hover:text-foreground"
+              className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-border bg-white text-foreground shadow-sm transition-all duration-300 hover:border-gold hover:text-gold hover:shadow-md disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-border disabled:hover:text-foreground"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 12H5M12 19l-7-7 7-7"/>
@@ -157,7 +166,7 @@ export function Collection() {
               onClick={handleNext}
               disabled={!canScrollRight}
               aria-label="Next items"
-              className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-foreground/20 bg-charcoal-light text-foreground transition-all duration-300 hover:border-gold hover:text-gold disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-foreground/20 disabled:hover:text-foreground"
+              className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-border bg-white text-foreground shadow-sm transition-all duration-300 hover:border-gold hover:text-gold hover:shadow-md disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-border disabled:hover:text-foreground"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7"/>

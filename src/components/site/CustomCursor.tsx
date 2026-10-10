@@ -7,13 +7,17 @@ export function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
   const pos = useRef({ x: 0, y: 0 });
   const ringPos = useRef({ x: 0, y: 0 });
+  const visibleRef = useRef(false);
 
   useEffect(() => {
     // Skip entirely on touch devices — a custom cursor with no pointer is dead weight
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
     const move = (e: MouseEvent) => {
-      if (!isVisible) setIsVisible(true);
+      if (!visibleRef.current) {
+        visibleRef.current = true;
+        setIsVisible(true);
+      }
       pos.current = { x: e.clientX, y: e.clientY };
       if (dotRef.current) {
         dotRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
@@ -44,7 +48,7 @@ export function CustomCursor() {
       window.removeEventListener("mouseover", onOver);
       cancelAnimationFrame(raf);
     };
-  }, [isVisible]);
+  }, []);
 
   if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
     return null;

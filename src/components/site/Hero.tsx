@@ -41,7 +41,7 @@ export function Hero() {
     document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section id="hero" ref={ref} className="relative h-[100svh] overflow-hidden bg-charcoal">
+    <section id="hero" ref={ref} className="relative h-[100svh] overflow-hidden bg-scrim">
       {/* Background Video Layer */}
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0">
         <video

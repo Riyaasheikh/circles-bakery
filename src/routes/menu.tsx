@@ -104,18 +104,22 @@ function QuickAdd({
 function ItemCard({
   item,
   image,
+  isCustomImage,
   sectionTitle,
   delay,
   index = 0,
 }: {
   item: Item;
   image: string;
+  isCustomImage?: boolean;
   sectionTitle: string;
   delay: number;
   index?: number;
 }) {
-  /* Vary the crop so a shared category still reads as distinct plates. */
+  /* Vary the crop so a shared category still reads as distinct plates, unless it's a custom image. */
   const crops = ["50% 40%", "30% 55%", "70% 45%", "50% 70%", "40% 30%", "60% 60%"];
+  const position = isCustomImage ? "center" : crops[index % crops.length];
+
   return (
     <Reveal delay={delay} y={26} className="h-full">
       <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-white/65 backdrop-blur-sm transition-all duration-500 will-change-transform hover:-translate-y-1.5 hover:border-gold/45 hover:bg-white/90 hover:shadow-[0_36px_70px_-44px_rgba(92,59,34,0.6)] focus-within:border-gold/45">
@@ -127,7 +131,7 @@ function ItemCard({
             decoding="async"
             width={1024}
             height={704}
-            style={{ objectPosition: crops[index % crops.length] }}
+            style={{ objectPosition: position }}
             className="h-full w-full scale-[1.05] object-cover transition-transform duration-[1.3s] ease-out will-change-transform group-hover:scale-[1.08]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-scrim/45 via-transparent to-transparent" />
@@ -270,6 +274,7 @@ function ProductGrid({ section, items }: { section: Section; items: Item[] }) {
           <ItemCard
             item={item}
             image={item.image ?? section.image}
+            isCustomImage={!!item.image}
             sectionTitle={section.title}
             index={j}
             delay={Math.min((j % 3) * 0.08, 0.16)}
@@ -310,9 +315,11 @@ function MenuPage() {
     (id: string | null) => {
       setQuery("");
       navigate({ search: id ? { c: id } : {}, resetScroll: false });
-      requestAnimationFrame(() => {
-        window.scrollTo({ top: id ? 0 : 0, behavior: "smooth" });
-      });
+      if (id) {
+        requestAnimationFrame(() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
     },
     [navigate],
   );

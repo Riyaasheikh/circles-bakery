@@ -25,10 +25,10 @@ function Field({
 }) {
   return (
     <label className="group block">
-      <span className="font-body text-[11px] uppercase tracking-[0.22em] text-beige">
+      <span className="font-body text-[11px] font-medium uppercase tracking-[0.22em] text-beige">
         {label}
       </span>
-      <div className="mt-2 border-b border-foreground/20 pb-3 transition-colors focus-within:border-gold">
+      <div className="mt-2 border-b border-border pb-2.5 transition-colors focus-within:border-gold">
         {children}
       </div>
     </label>
@@ -36,7 +36,7 @@ function Field({
 }
 
 const inputCls =
-  "w-full bg-transparent font-body text-ivory placeholder:text-beige/30 focus:outline-none [color-scheme:light]";
+  "w-full bg-transparent font-body text-ivory placeholder:text-beige/40 focus:outline-none [color-scheme:light]";
 
 export function Reservation() {
   const [guests, setGuests] = useState("2");
@@ -88,9 +88,9 @@ export function Reservation() {
   };
 
   return (
-    <section id="reservation" className="relative bg-charcoal px-6 py-28 md:px-10 md:py-40">
+    <section id="reservation" className="relative bg-background border-t border-border px-6 py-24 md:px-10 md:py-36">
       <div
-        className="pointer-events-none absolute inset-0 opacity-60"
+        className="pointer-events-none absolute inset-0 opacity-40"
         style={{
           background: "radial-gradient(circle at 20% 30%, var(--accent-glow), transparent 50%)",
         }}
@@ -106,22 +106,22 @@ export function Reservation() {
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mt-7 max-w-md font-body text-sm font-light leading-relaxed text-beige/70">
+            <p className="mt-7 max-w-md font-body text-sm font-light leading-relaxed text-beige/80">
               Join us for breakfast, fresh pastries, afternoon coffee or family dining. For
               celebration cakes and large parties, share the details and our team
               will be in touch.
             </p>
           </Reveal>
           <Reveal delay={0.3}>
-            <div className="mt-10 space-y-3 font-body text-sm text-beige/70">
+            <div className="mt-10 space-y-3 font-body text-sm text-beige/80">
               <p>Open daily · Closes 1:00 AM</p>
-              <p className="text-gold">+92 310 1111532</p>
+              <p className="text-gold font-medium">+92 310 1111532</p>
             </div>
           </Reveal>
         </div>
 
         <Reveal delay={0.2}>
-          <form onSubmit={handleSubmit} className="glass rounded-sm p-8 md:p-10">
+          <form onSubmit={handleSubmit} className="rounded-3xl border border-border bg-white p-8 shadow-lg md:p-10">
             {sent ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -129,7 +129,7 @@ export function Reservation() {
                 className="flex min-h-[360px] flex-col items-center justify-center text-center"
               >
                 <span className="font-display text-5xl text-gold">Merci.</span>
-                <p className="mt-4 max-w-xs font-body text-sm text-beige/70">
+                <p className="mt-4 max-w-xs font-body text-sm text-beige/80">
                   Your request has been received. We'll confirm your reservation
                   shortly.
                 </p>
@@ -177,7 +177,7 @@ export function Reservation() {
                   </Field>
                 </div>
                 <div>
-                  <span className="font-body text-[11px] uppercase tracking-[0.22em] text-beige">
+                  <span className="font-body text-[11px] font-medium uppercase tracking-[0.22em] text-beige">
                     Guests
                   </span>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -188,10 +188,10 @@ export function Reservation() {
                         onClick={() => setGuests(g)}
                         aria-pressed={guests === g}
                         aria-label={`${g} guests`}
-                        className={`h-11 w-11 rounded-full border font-body text-sm transition-colors ${
+                        className={`h-11 w-11 rounded-full border font-body text-sm font-medium transition-all ${
                           guests === g
-                            ? "border-gold bg-gold text-scrim"
-                            : "border-foreground/20 text-beige hover:border-gold/60"
+                            ? "border-gold bg-gold text-white shadow-sm"
+                            : "border-border bg-stone-50 text-beige hover:border-gold/60 hover:text-brown"
                         }`}
                       >
                         {g}
@@ -208,16 +208,16 @@ export function Reservation() {
                   />
                 </Field>
                 {error && (
-                  <p role="alert" className="font-body text-sm text-red-400">
+                  <p role="alert" className="font-body text-sm text-red-500 font-medium">
                     {error}
                   </p>
                 )}
                 <Magnetic
                   as="button"
-                  strength={0.25}
+                  strength={0.2}
                   disabled={submitting}
                   style={{ display: "block", width: "100%" }}
-                  className="mt-2 w-full rounded-full bg-gold py-4 font-body text-xs uppercase tracking-[0.25em] text-scrim transition-colors hover:bg-gold-soft disabled:cursor-not-allowed disabled:opacity-60"
+                  className="mt-3 w-full rounded-full bg-gold py-4 font-body text-xs font-semibold uppercase tracking-[0.25em] text-white shadow-md transition-all hover:bg-brown hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {submitting ? "Sending…" : "Request Reservation"}
                 </Magnetic>

@@ -1,20 +1,22 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import path from "path";
-import { fileURLToPath } from "url";
-
-// Create an ESM-compatible __dirname replacement if needed
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { defineConfig } from 'vite'
+import viteReact from '@vitejs/plugin-react'
+import viteTsConfigPaths from 'vite-tsconfig-paths'
+import tailwindcss from '@tailwindcss/vite'
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+import { nitro } from 'nitro/vite'
 
 export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(),
-  ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
+  server: {
+    port: 5173,
   },
-});
+  plugins: [
+    viteTsConfigPaths({
+      projects: ['./tsconfig.json'],
+    }),
+    tailwindcss(),
+    tanstackStart(),
+    nitro({ preset: 'vercel' }),
+    // react's plugin must come after start's plugin
+    viteReact(),
+  ],
+})

@@ -31,7 +31,7 @@ function providerForMethod(method: string): "stripe" | "cash" | "manual" {
 
 export const submitCheckout = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input) => checkoutSchema.parse(input))
+  .validator((input) => checkoutSchema.parse(input))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
 

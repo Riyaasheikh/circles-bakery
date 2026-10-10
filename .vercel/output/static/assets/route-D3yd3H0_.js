@@ -1,0 +1,1 @@
+import{o as e}from"./useStore-B4MPptBL.js";import{k as t}from"./index-CCjkmv2-.js";var n=e(),r=()=>(0,n.jsx)(t,{});export{r as component};
